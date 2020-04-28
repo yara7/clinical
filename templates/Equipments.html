@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<!--
+	Full Motion by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Equipments</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/schadual.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+		
+		<style>
+			table, td {
+				padding: 10px;
+				border: 1px solid black; 
+				border-collapse: collapse;
+				color: black;
+				font-size: 20px;
+				font-weight: 500;
+			}
+			#header {
+				background-color: #70c7be;
+				font-size: 25px;
+				font-weight: bold;
+				
+			}
+
+			.button.fit {
+			font-size: 20px;
+		}	
+	  </style>
+  
+	</head>
+	<body id="top">
+
+			<!-- Main -->
+				<div id="main">
+					<div class="inner">
+
+					<!-- Boxes -->
+						<div class="thumbnails">
+
+                            <div class="box">
+								<div class="inner">
+									<a href="{{ url_for('index') }}" class="button fit" data-poptrox="youtube,800x400">Home</a>
+								</div>
+							</div>
+
+							<div class="box">
+								<div class="inner">
+									<a href="{{ url_for('Equipments') }}" class="button fit" data-poptrox="youtube,800x400" >View Equipments</a>
+								</div>
+							</div>
+							<div class="box">
+								<div class="inner">
+									<a href="{{ url_for('addEquipment') }}" class="button fit" data-poptrox="youtube,800x400">Add new Equipents</a>
+								</div>
+							</div>
+
+			
+						</div>
+
+					</div>
+				</div>
+
+				<div class="container">
+					<form id="booking-form" class="booking-form" method="POST">
+						<div class="form-group">
+							<div class="form-destination">
+								<label for="destination">Equipment</label>
+								<input type="text" id="destination" name="Equipment" placeholder="Pick Equipment Name" />
+							</div>
+							<div class="form-date-from form-icon">
+								<label for="date_from">Installation date</label>
+								<input type="date" id="date_from" class="date_from" name="Installation date" placeholder="Pick a date" />
+								<!-- <span class="icon"><i class="zmdi zmdi-calendar-alt"></i></span> -->
+							</div>
+							<div class="form-date-to form-icon">
+								<label for="date_to">Warranty date</label>
+								<input type="date" id="date_to" class="date_to" name = "Warranty date" placeholder="Pick a date" />
+								<!-- <span class="icon"><i class="zmdi zmdi-calendar-alt"></i></span> -->
+							</div>
+							
+							<div class="form-submit">
+								<input type="submit" id="submit" class="submit" value="Search" />
+							</div>
+						</div>
+					</form>
+				</div>
+
+
+
+
+				<table bgcolor="white">
+					<tr id = "header">
+					   {% for r in data.header %}
+							<td id="header">{{ r  }}</td>
+					   {% endfor %}
+					</tr>
+					{% for r in data.rec %}
+					<tr>
+					   {% for l in r%}
+						 	<td> {{ l }}</td>
+					   {% endfor %}
+					</tr>
+					{% endfor %}
+				 </table>
+
+				
+
+	</body>
+</html>
+
+
+   
