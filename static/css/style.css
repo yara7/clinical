@@ -280,6 +280,8 @@ label {
 #quantity {
   color: #999; }
 
+  * {box-sizing: border-box}
+
 .form-group {
   align-items: center;
   -moz-align-items: center;

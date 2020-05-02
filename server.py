@@ -78,5 +78,10 @@ def addEquipment():
   else:
     return render_template("/addEquipment.html")
 
+@app.route('/Reports', methods=['POST','GET'])
+def Reports():
+  return render_template('Reports.html')
+
+
 if __name__ == '__main__':
 	app.run(debug=True)

@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Reports</title>
+        <link rel = "stylesheet" type = "text/css" href = "../static/css/tabstyle.css" />
+        
+    </head>
+
+    <body>
+      <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
+
+      <header id="header">
+        <div class="d-flex flex-column">
+          
+            <nav class="nav-menu">
+            <ul>
+                <li class="active"><a href="#work"><i class="bx bx-home"></i> <span>Work Orders</span></a></li>
+                <li><a href="#equipment"><i class="bx bx-user"></i> <span>Equipment History</span></a></li>
+                <li><a href="#purchase"><i class="bx bx-file-blank"></i> <span>Purchase Orders</span></a></li>
+            </ul>
+          </nav>
+
+          <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
+
+        </div>
+        </header>
+
+        <main id="main">
+
+            <section id="work">
+                <div class="container">
+                    
+                    <div class="section-title">
+                        <h2>Work Orders</h2>
+                    </div>
+                    
+                    <form id="booking-form" class="booking-form" method="POST">
+                    <ul>
+                        <div class="form-group">
+                        <ul>
+                            <div class="form-destination">
+                                <label for="destination"><h4>Equipment</h4></label>
+                                <input type="text" id="destination" name="Equipment" placeholder="Enter Equipment SN" />
+                            </div>
+                            <label> <h4>Time Interval</h4></label>
+                            <div class="form-group">
+
+                                <div class="form-date-from form-icon">
+                                    <label for="date_from">From</label>
+                                    <input type="date" id="date_from" class="date_from" name="Starting date" placeholder="Enter a date" />
+                                    <!-- <span class="icon"><i class="zmdi zmdi-calendar-alt"></i></span> -->
+                                </div>
+                                <div class="form-date-to form-icon">
+                                    <label for="date_to">To</label>
+                                    <input type="date" id="date_to" class="date_to" name = "Ending date" placeholder="Enter a date" />
+                                    <!-- <span class="icon"><i class="zmdi zmdi-calendar-alt"></i></span> -->
+                                </div>
+                            </div>
+                        </ul>
+                        </div>
+                        <div class="form-submit2">
+                            <input type="submit" id="submit" class="submit" value="Show Work Orders" />
+                        </div>
+                    </ul>   
+                        
+                    </div>
+                </div>
+            </section><!-- End About Section -->
+
+            <section id="equipment">
+                <div class="container">
+                    
+                    <div class="section-title">
+                        <h2>Equipment History</h2>
+                    </div>
+                    
+                    <form id="booking-form" class="booking-form" method="POST">
+                        <div class="form-group">
+                        <ul>
+                            <div class="form-destination">
+                                <label for="destination"><h4>Equipment</h4></label>
+                                <input type="text" id="destination" name="Equipment" placeholder="Enter Equipment SN" />
+                            </div>
+                            <div class="form-submit">
+                                <input type="submit" id="submit" class="submit" value="Show History" />
+                            </div>
+                        </ul>                        
+                    </div>
+                </div>
+            </section><!-- End About Section -->
+
+        </main><!-- End #main -->
+
+
+
+        <!--<script src="../static/js/reports.js"></script> -->
+
+    </body> 
+   
+
+</html>
