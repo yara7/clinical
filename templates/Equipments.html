@@ -29,7 +29,15 @@
 				font-weight: bold;
 				
 			}
-
+			a:hover{
+				color: black;
+			}
+			a{
+				color: black;
+				font-size: 20px;
+				font-weight: 500;
+			
+			}
 			.button.fit {
 			font-size: 20px;
 		}	
@@ -69,7 +77,7 @@
 				</div>
 
 				<div class="container">
-					<form id="booking-form" class="booking-form" method="POST">
+					<form action = "{{ url_for('Equipments') }}" id="booking-form" class="booking-form" method="POST">
 						<div class="form-group">
 							<div class="form-destination">
 								<label for="destination">Equipment</label>
@@ -96,23 +104,51 @@
 
 
 
-				<table bgcolor="white">
+				<table bgcolor="white" id = "noran">
 					<tr id = "header">
 					   {% for r in data.header %}
 							<td id="header">{{ r  }}</td>
 					   {% endfor %}
 					</tr>
 					{% for r in data.rec %}
-					<tr>
-					   {% for l in r%}
-						 	<td> {{ l }}</td>
-					   {% endfor %}
-					</tr>
+						<tr>
+						{% for l in r %}
+							
+								{% if l == r[-1] and l != '' %}
+									
+
+								 
+								 <!-- <td > <button class="sheet" id = "sheet" onclick="data()">{{ l }}</button> </td>  -->
+								 <td > <a  class="sheet" id = "sheet" onclick="data()">{{ l }}</a> </td> 
+
+									
+									
+									
+								{% else %}
+									<td > {{ l }}</td>
+									
+								{% endif %}
+							
+
+						{% endfor %}
+						</tr>
 					{% endfor %}
 				 </table>
 
 				
+		<script type="text/javascript">
+							
 
+		function data(){
+			var name = prompt("Enter Equipment's data sheet name (Name_Asset ID) please") ;
+			var url = "http://127.0.0.1:5000/static/uploads/"+name	
+			if(name !== null){
+
+			window.location.href = url;
+			}		
+
+		}
+		</script>
 	</body>
 </html>
 

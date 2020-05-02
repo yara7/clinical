@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Add Part</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styleadd.css') }}">
+		
+
+		
+		<style>
+            input[type = text]{
+
+                background-color: #f8f8f8;
+                color: #282828;
+            }
+            input[type = date]{
+
+                background-color: #f8f8f8;
+                color: #282828;
+            }
+            label{
+                font-size: 26px;
+                font-weight: 600;
+            }
+
+			.button.fit {
+			font-size: 20px;
+		}	
+	  </style>
+  
+	</head>
+	<body id="top">
+
+			<!-- Main -->
+				<div id="main">
+					<div class="inner">
+
+					<!-- Boxes -->
+						<div class="thumbnails">
+
+                            <div class="box">
+								<div class="inner">
+									<a href="{{ url_for('index') }}" class="button fit" data-poptrox="youtube,800x400">Home</a>
+								</div>
+							</div>
+
+							<div class="box">
+								<div class="inner">
+									<a href="{{ url_for('parts') }}" class="button fit" data-poptrox="youtube,800x400" >View Parts</a>
+								</div>
+							</div>
+							<div class="box">
+								<div class="inner">
+									<a href="{{ url_for('addParts') }}" class="button fit" data-poptrox="youtube,800x400">Add new Part</a>
+								</div>
+							</div>
+
+			
+						</div>
+
+               </div>
+               
+
+               <div class="container">
+                  <div class="signup-content">
+                      <div class="signup-form">
+                          <form method="POST" action = "{{ url_for('addParts') }}" class="register-form" id="register-form" >
+                              <div class="form-row">
+                                  <div class="form-group">
+                                      <div class="form-input">
+                                          <label for="first_name" class="required">Part Number</label>
+                                          <input type="text" name="Part_Number" id="first_name" />
+                                      </div>
+                                      <div class="form-input">
+                                          <label for="last_name" >Name</label>
+                                          <input type="text" name="Name" id="last_name" />
+                                      </div>
+                                      <div class="form-input">
+                                          <label for="company" class="required" >Asset ID</label>
+                                          <input type="text" name="Asset_ID" id="company" />
+                                      </div>
+                                      
+                                      
+                                    
+                                  </div>
+                                  <div class="form-group">
+
+                                        <div class="form-input">
+                                            <label for="email" >Vendor</label>
+                                            <input type="text" name="Vendor" id="email" />
+                                        </div>
+
+                                        <div class="form-input">
+                                            <label for="phone_number" >Cost</label>
+                                            <input type="text" name="Cost" id="phone_number" />
+                                        </div>
+                                        <div class="form-input">
+                                          <label for="chequeno">Quantity</label>
+                                          <input type="text" name="Quantity" id="chequeno" />
+                                      </div>
+                                   
+                                  </div>
+                              </div>
+                              
+                              <div class="form-submit">
+                                  <input type="submit" value="Submit" class="submit" id="submit" name="submit" />
+                                  
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+      
+				</div>
+
+
+
+				
+
+	</body>
+</html>
+
+
+   

@@ -4,8 +4,8 @@
 		<title>Equipments</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styleadd.css') }}">
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styleadd.css') }}">
 		
 
 		
@@ -66,7 +66,7 @@
                <div class="container">
                   <div class="signup-content">
                       <div class="signup-form">
-                          <form method="POST" class="register-form" id="register-form">
+                          <form method="POST" action = "{{ url_for('addEquipment') }}" class="register-form" id="register-form" enctype ="multipart/form-data" >
                               <div class="form-row">
                                   <div class="form-group">
                                       <div class="form-input">
@@ -127,6 +127,10 @@
                                       <div class="form-input">
                                         <label for="chequeno">Scrapping date</label>
                                         <input type="date" name="Scrapping_date" id="chequeno" />
+                                    </div>
+                                      <div class="form-input">
+                                        <label for="chequeno">Data sheet</label>
+                                        <input type="file" name="Data_sheet" id="chequeno" />
                                     </div>
                                   </div>
                               </div>
