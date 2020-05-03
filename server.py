@@ -7,7 +7,7 @@ mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   passwd="mysql",
-  database="cmms"
+  database="CMMS"
 )
 mycursor = mydb.cursor()
 app = Flask(__name__)
