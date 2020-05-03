@@ -1,3 +1,4 @@
+
 import mysql.connector
 from flask import Flask, redirect, url_for, request,render_template,flash, send_file
 from io import BytesIO
@@ -6,7 +7,7 @@ mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   passwd="mysql",
-  database="CMMS"
+  database="cmms"
 )
 mycursor = mydb.cursor()
 app = Flask(__name__)
@@ -153,6 +154,30 @@ def addParts():
 def Reports():
   return render_template('Reports.html')
 
+
+@app.route('/addOrder', methods=['POST','GET'])
+def addOrder():
+  if request.method == 'POST':
+    Asset_ID = request.form["Asset_ID"]
+    Name = request.form["Name"]
+    Order_number = request.form["Order_number"]
+    Status = request.form["Status"]
+    Demand_PM= request.form["Repair/PM"]
+    Due_date = request.form["Due_date"]
+    Creation__date = request.form["Creation__date"]
+    PM_date = request.form["PM_date"]
+    PM_frequency = request.form["PM_frequency"]
+    Priority = request.form["Priority"]
+    Description = request.form["Description"]
+    Demand_cost = request.form["Demand_cost"] 
+    sql = "INSERT INTO Work_orders(Asset_ID, Name ,Order_number ,Status,`Repair/PM`,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Demand_cost) VALUES (%s, %s ,%s ,%s,%s, %s ,%s,%s,%s,%s,%s,%s )"
+    val = (Asset_ID, Name ,Order_number ,Status,Demand_PM,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Demand_cost)
+    mycursor.execute(sql, val)
+    mydb.commit() 
+    return render_template("/addOrder.html")
+	
+  else:
+    return render_template("/addOrder.html")
 
 if __name__ == '__main__':
 	app.run(debug=True)

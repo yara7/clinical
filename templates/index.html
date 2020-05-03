@@ -5,103 +5,106 @@
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
 <html>
-	<head>
-		<title>CMMS for hospitals</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
 
-		<!-- <link rel="stylesheet" type="text/css"  href="assets/css/main.css" /> -->
-	</head>
-	<body id="top">
+<head>
+    <title>CMMS for hospitals</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
 
-			<!-- Banner -->
-			<!--
+    <!-- <link rel="stylesheet" type="text/css"  href="assets/css/main.css" /> -->
+</head>
+
+<body id="top">
+
+    <!-- Banner -->
+    <!--
 				To use a video as your background, set data-video to the name of your video without
 				its extension (eg. images/banner). Your video must be available in both .mp4 and .webm
 				formats to work correctly.
 			-->
-				<section id="banner" data-video="static/banner">
-					<div class="inner">
-						<header>
-							<h1> CMMS for hospitals</h1>
-							<p> A computerized maintenance system for hospitals to track the work orders and make reports </p>
-						</header>
-						<a href="#main" class="more">Learn More</a>
-					</div>
-				</section>
+    <section id="banner" data-video="static/banner">
+        <div class="inner">
+            <header>
+                <h1> CMMS for hospitals</h1>
+                <p> A computerized maintenance system for hospitals to track the work orders and make reports </p>
+            </header>
+            <a href="#main" class="more">Learn More</a>
+        </div>
+    </section>
 
-			<!-- Main -->
-				<div id="main">
-					<div class="inner">
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
 
-					<!-- Boxes -->
-						<div class="thumbnails">
+            <!-- Boxes -->
+            <div class="thumbnails">
 
-							<div class="box">
-								<a  class="image fit"><img src="static/workorders.jpg" alt="" /></a>
-								<div class="inner">
-									<h3>Work order requests</h3>
-									<p>get Work order requests </p>
-									<a href="http://127.0.0.1:5500/index.html" class="button fit" data-poptrox="youtube,800x400" rel="noopener noreferrer" target="_blank">View</a>
-								</div>
-							</div>
-							<div class="box">
-								<a  class="image fit"><img src="static/submit.png" alt="" /></a>
-								<div class="inner">
-									<h3>Submit a work order</h3>
-									<p>You can submit a new work order request </p>
-									<a href="http://127.0.0.1:5500/index.html" class="button fit" data-poptrox="youtube,800x400">View</a>
-								</div>
-							</div>
+                <div class="box">
+                    <a class="image fit"><img src="static/workorders.jpg" alt="" /></a>
+                    <div class="inner">
+                        <h3>Work order requests</h3>
+                        <p>get Work order requests </p>
+                        <a href="http://127.0.0.1:5500/index.html" class="button fit" data-poptrox="youtube,800x400" rel="noopener noreferrer" target="_blank">View</a>
+                    </div>
+                </div>
+                <div class="box">
+                    <a class="image fit"><img src="static/submit.png" alt="" /></a>
+                    <div class="inner">
+                        <h3>Submit a work order</h3>
+                        <p>You can submit a new work order request </p>
+                        <a href="{{ url_for('addOrder') }}" class="button fit" data-poptrox="youtube,800x400">View</a>
+                    </div>
+                </div>
 
-							<div class="box">
-								<a  class="image fit"><img src="static/equipment.jpg" alt="" /></a>
-								<div class="inner">
-									<h3>Equipments</h3>
-									<p>Get Equipments data or add a new one </p>
-									<a href="{{ url_for('Equipments') }}" class="button style2 fit" data-poptrox="youtube,800x400" rel="noopener noreferrer" target="_blank">view</a>
-								</div>
-							</div>
-							<div class="box">
-								<a  class="image fit"><img src="static/inventory2.png" alt="" /></a>
-								<div class="inner">
-									<h3>Inventory</h3>
-									<p>Get Parts data or add a new Part </p>
-									<a href="{{ url_for('parts') }}" class="button style2 fit" data-poptrox="youtube,800x400" rel="noopener noreferrer" target="_blank">view</a>
-								</div>
-							</div>
+                <div class="box">
+                    <a class="image fit"><img src="static/equipment.jpg" alt="" /></a>
+                    <div class="inner">
+                        <h3>Equipments</h3>
+                        <p>Get Equipments data or add a new one </p>
+                        <a href="{{ url_for('Equipments') }}" class="button style2 fit" data-poptrox="youtube,800x400" rel="noopener noreferrer" target="_blank">view</a>
+                    </div>
+                </div>
+                <div class="box">
+                    <a class="image fit"><img src="static/inventory2.png" alt="" /></a>
+                    <div class="inner">
+                        <h3>Inventory</h3>
+                        <p>Get Parts data or add a new Part </p>
+                        <a href="{{ url_for('parts') }}" class="button style2 fit" data-poptrox="youtube,800x400" rel="noopener noreferrer" target="_blank">view</a>
+                    </div>
+                </div>
 
-							<div class="box">
-								<a  class="image fit"><img src="static/reports.png" alt="" /></a>
-								<div class="inner">
-									<h3>Reports</h3>
-									<p>Make a customizable report</p>
-									<a href="{{ url_for('Reports') }}" class="button style3 fit" data-poptrox="youtube,800x400" rel="noopener noreferrer" target="_blank">Make a report</a>
-								</div>
-							</div>
+                <div class="box">
+                    <a class="image fit"><img src="static/reports.png" alt="" /></a>
+                    <div class="inner">
+                        <h3>Reports</h3>
+                        <p>Make a customizable report</p>
+                        <a href="{{ url_for('Reports') }}" class="button style3 fit" data-poptrox="youtube,800x400" rel="noopener noreferrer" target="_blank">Make a report</a>
+                    </div>
+                </div>
 
-						</div>
+            </div>
 
-					</div>
-				</div>
+        </div>
+    </div>
 
-			<!-- Footer -->
-				<footer id="footer">
-					<div class="inner">
-					
-					
-					</div>
-				</footer>
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="inner">
 
-		<!-- Scripts -->
-		<script src="static/js/jquery.min.js"></script>
-		<script src="static/js/jquery.scrolly.min.js"></script>
-		<script src="static/js/jquery.poptrox.min.js"></script>
-		<script src="static/js/skel.min.js"></script>
-		<script src="static/js/util.js"></script>
-		<script src="static/js/main.js"></script>
-		<script src="static/js/reports.js"></script>
 
-	</body>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/jquery.scrolly.min.js"></script>
+    <script src="static/js/jquery.poptrox.min.js"></script>
+    <script src="static/js/skel.min.js"></script>
+    <script src="static/js/util.js"></script>
+    <script src="static/js/main.js"></script>
+    <script src="static/js/reports.js"></script>
+
+</body>
+
 </html>
