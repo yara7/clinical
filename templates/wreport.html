@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Example 3</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nreport.css') }}" />
+</head>
+  <body>
+    <main>
+      <h1  class="clearfix"><small><span>DATE</span><br />August 17, 2015</small> INVOICE 3-2-1 <small><span>DUE DATE</span><br /> September 17, 2015</small></h1>
+      <table class="data">
+        <thead>
+        <tr>
+            
+            {% for r in data.header %}
+                <th id="header1">{{ r  }}</th>
+            {% endfor %}
+            
+        </tr>
+        </thead>
+        <tbody>
+        
+            {% for r in data.rec %}
+                <tr>
+                {% for l in r %}
+                    
+                    <td > {{ l }}</td>
+                            
+                        
+                    
+
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    </main>
+    <script src="{{ url_for('static', filename='js/workorder.js') }}"></script>
+
+  </body>
+</html>

@@ -1,4 +1,3 @@
-
 import mysql.connector
 from flask import Flask, redirect, url_for, request,render_template,flash, send_file
 from io import BytesIO
@@ -183,9 +182,6 @@ def editParts():
   else:
     return render_template("/editParts.html")
 
-@app.route('/Reports', methods=['POST','GET'])
-def Reports():
-  return render_template('Reports.html')
 
 
 @app.route('/addOrder', methods=['POST','GET'])
@@ -234,5 +230,48 @@ def editOrder():
 	
   else:
     return render_template("/editOrder.html")
+
+
+
+
+@app.route('/workreport', methods=['POST','GET'])
+def workreport():
+  if request.method == 'POST':
+    Asset_ID = request.form["Asset_ID"]
+    Priority = request.form["Priority"]
+    Status = request.form["Status"]
+    Department = request.form["Department"]
+    Repair_PM = request.form["Repair_PM"]
+    Technition = request.form["Technition"]
+    hours = request.form["hours"]
+    parts = request.form["parts"]
+    cFrom = request.form["cFrom"]
+    cTo = request.form["cTo"]
+    dFrom = request.form["dFrom"]
+    dTo = request.form["dTo"]
+    mycursor.execute("SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Name AS `Technition Name`,"+
+    " W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a JOIN Equipment As e USING(Asset_ID) JOIN Work_on As W USING(Order_number) JOIN Technicians AS T USING(SSN) JOIN Work_Order_Parts AS WP USING(Order_number) " +
+    "WHERE a.Asset_ID = '"+ Asset_ID+"' AND a.Status = '"+Status+"' AND a.Priority = '"+Priority+"' AND e.Department = '"+Department+"' AND W.SSN ='"+Technition+"' " +
+    " AND a.Creation__date >= '"+ cFrom+"' AND a.Creation__date <= '"+ cTo+"' AND a.Due_date >= '"+ dFrom+"' AND a.Due_date <= '"+ dTo+"' AND a.`Repair/PM` = '"+Repair_PM+"' ")
+    row_headers=[x[0] for x in mycursor.description] 
+    myresult = mycursor.fetchall()
+    data={
+    'message':"data retrieved",
+    'rec':myresult,
+    'header':row_headers
+    }
+    return  wreport(data)
+      
+
+  else:
+    return render_template("workreport.html")
+
+@app.route('/wreport')
+def wreport(data):
+  
+
+  return render_template("wreport.html", data = data)
+
+
 if __name__ == '__main__':
 	app.run(debug=True)

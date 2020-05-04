@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<!--
+	Full Motion by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>report</title>
+		<meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+        <link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename='css/ntabstyle.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/nstyleform.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/nreport.css') }}" />
+
+		
+		
+	</head>
+	<body >
+
+
+			<!-- Main -->
+            <header id="header">
+                <div class="d-flex flex-column">
+                  
+                    <nav class="nav-menu">
+                    <ul>
+                        <li class="active"><a href="{{ url_for('workreport')}}"><i class="bx bx-home"></i> <span>Work Orders</span></a></li>
+                        <li ><a href="{{ url_for('index')}}"><i class="bx bx-user"></i> <span>Equipment History</span></a></li>
+                        <li ><a href=""><i class="bx bx-file-blank"></i> <span>Purchase Orders</span></a></li>
+                    </ul>
+                  </nav>
+        
+        
+                </div>
+            </header>
+            <div class="section-title">
+                <h2>Work Orders</h2>
+            </div>
+
+				<div class="container1">
+
+                    <form action = "{{ url_for('workreport') }}"  id="booking-form" class="booking-form" method="POST">
+                        <div class="form-group">
+                            <div class="form-destination">
+                                <label for="destination">Asset ID</label>
+                                <input type="text" id="status" name="Asset_ID" placeholder="Pick Equipment Name"  />
+                                <label for="destination">Priority</label>
+    
+                                <select id="status"  name="Priority">
+                                    <option value=""></option>
+                                    <option value="High">High</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Low">Low</option>
+                                </select>
+    
+                                <div  id="change"></div>
+    
+                            </div>
+                            <div class="form-destination">
+                                <label for="destination">Status</label>
+                                <select id="status" name="Status">
+                                    <option value=""></option>
+                                    <option value="Not started">Not started</option>
+                                    <option value="In progress">In progress</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Over due">Over due</option>
+                                </select>
+                                <label for="destination">Department</label>
+    
+                                <select id="status" name="Department">
+                                    <option value=""></option>
+                                    <option value="ICU">ICU</option>
+                                    <option value="Cardiology ">Cardiology </option>
+                                    <option value="Central sterile services department">Central sterile services department</option>
+                                    <option value=" In patients"> In patients</option>
+                                    <option value="Operating Theater ">Operating Theater </option>
+                                    <option value="Radiology">Radiology</option>
+                                    <option value="Obstetrics and Gynecology">Obstetrics and Gynecology</option>
+                                    <option value="Emergency Room">Emergency Room</option>
+                                </select>
+    
+                            </div>
+                            <div class="form-date-from form-icon">
+                                <label for="date_from">Repair / PM</label>
+                                <select id="RepairPM" name="Repair_PM" onchange="getselectedvalue()">
+                                    <option value=""></option>
+                                    <option value="Repair">Repair</option>
+                                    <option value="PM" >PM</option>
+                                </select>
+                                <label for="destination">Technition SSN</label>
+                                <input type="text" id="status" name="Technition"   />
+    
+                                
+                                
+                            </div>
+                            <div class="form-date-from form-icon">
+                                <label for="date_from">hours spent</label>
+                                <input type="text" id="status" name="hours"  placeholder="Number of hours to complete" />
+    
+                                <label for="destination">Used parts</label>
+    
+                                <input type="text" id="status" name="parts"   />
+    
+                                
+                            </div>
+                            <div class="form-date-to form-icon">
+                                <label for="date_to" id = "fdate"f>Creation date</label>
+                                <label for="date_to" id = "fdate"f>From</label>
+                                <input type="date" id="fdate" class="date_to" name = "cFrom"  />
+                                <label for="date_to" id = "fdate"f>To</label>
+                                <input type="date" id="tdate" class="date_to" name = "cTo" />
+                            </div>
+                            <div class="form-date-to form-icon">
+                                <label for="date_to" id = "fdate"f>Due date</label>
+                                <label for="date_to" id = "fdate"f>From</label>
+                                <input type="date" id="fdate" class="date_to" name = "dFrom"  />
+                                <label for="date_to" id = "fdate"f>To</label>
+                                <input type="date" id="tdate" class="date_to" name = "dTo" />
+                            </div>
+                            <div class="form-submit">
+                                <input type="submit" id="submit" class="submit" value="Search" />
+                            </div>
+                        </div>
+                    </form>
+
+				</div>
+
+
+
+				
+        <script src="{{ url_for('static', filename='js/workorder.js') }}"></script>
+
+	</body>
+</html>
+
+
+   
