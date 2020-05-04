@@ -11,7 +11,7 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor()
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER']  = "C:/Users/Lenovo/CMMS/static/uploads"
+app.config['UPLOAD_FOLDER']  ="C:/Users/Lenovo/CMMS/static/uploads"
 @app.route('/')
 def index():
 	return render_template("index.html")
@@ -147,8 +147,41 @@ def addParts():
 
    return render_template("addParts.html")
 	
+@app.route('/editEquipment', methods=['POST','GET'])
+def editEquipment():
+  if request.method == 'POST':
+    Asset_ID = request.form["Asset_ID"]
+    Installation_date = request.form["Installation_date"]
+    Warranty_expires = request.form["Warranty_expires"]
+    Facility = request.form["Facility"]
+    Building = request.form["Building"]
+    Floor = request.form["Floor"]
+    Department = request.form["Department"]
+    Scrapping_date = request.form["Scrapping_date"]
+    sql = """UPDATE Equipment set Installation_date=%s,Warranty_expires=%s,Facility=%s,Building=%s,Floor=%s,Department=%s,Scrapping_date=%s where Asset_ID=%s """
+    val = (Installation_date,Warranty_expires,Facility,Building,Floor,Department,Scrapping_date,Asset_ID)
+    mycursor.execute(sql, val)
+    mydb.commit() 
+    return render_template("/editEquipment.html")
+	
+  else:
+    return render_template("/editEquipment.html")
 
-
+@app.route('/editParts', methods=['POST','GET'])
+def editParts():
+  if request.method == 'POST':
+    Part_Number = request.form["Part_Number"]
+    Vendor = request.form["Vendor"]
+    Cost = request.form["Cost"]
+    Quantity = request.form["Quantity"]
+    sql = """UPDATE Inventory set Vendor=%s,Cost=%s,Quantity=%s where Part_Number=%s """
+    val = (Vendor,Cost,Quantity,Part_Number)
+    mycursor.execute(sql, val)
+    mydb.commit() 
+    return render_template("/editParts.html")
+	
+  else:
+    return render_template("/editParts.html")
 
 @app.route('/Reports', methods=['POST','GET'])
 def Reports():
@@ -179,5 +212,27 @@ def addOrder():
   else:
     return render_template("/addOrder.html")
 
+@app.route('/editOrder', methods=['POST','GET'])
+def editOrder():
+  if request.method == 'POST':
+    Name = request.form["Name"]
+    Order_number = request.form["Order_number"]
+    Status = request.form["Status"]
+    Demand_PM= request.form["Repair/PM"]
+    Due_date = request.form["Due_date"]
+    Creation__date = request.form["Creation__date"]
+    PM_date = request.form["PM_date"]
+    PM_frequency = request.form["PM_frequency"]
+    Priority = request.form["Priority"]
+    Description = request.form["Description"]
+    Demand_cost = request.form["Demand_cost"]
+    sql = """UPDATE Work_orders set Name=%s,Status=%s,`Repair/PM`=%s,Due_date=%s,Creation__date=%s,PM_date=%s,PM_frequency=%s,Priority=%s,Description=%s,Demand_cost=%s  where Order_number=%s """
+    val = (Name,Status,Demand_PM,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Demand_cost,Order_number)
+    mycursor.execute(sql, val)
+    mydb.commit() 
+    return render_template("/editOrder.html")
+	
+  else:
+    return render_template("/editOrder.html")
 if __name__ == '__main__':
 	app.run(debug=True)

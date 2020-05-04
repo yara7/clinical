@@ -16,6 +16,11 @@
             color: #282828;
         }
         
+        input[type=text] select {
+            background-color: #f8f8f8;
+            color: #282828;
+        }
+        
         input[type=date] {
             background-color: #f8f8f8;
             color: #282828;
@@ -56,6 +61,11 @@
                 <div class="box">
                     <div class="inner">
                         <a href="{{ url_for('addOrder') }}" class="button fit" data-poptrox="youtube,800x400">Add new WorkOrder</a>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="inner">
+                        <a href="{{ url_for('editOrder') }}" class="button fit" data-poptrox="youtube,800x400">editOrder</a>
                     </div>
                 </div>
 
