@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Equipments</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styleadd.css') }}">
+
+
+
+    <style>
+        input[type=text] {
+            background-color: #f8f8f8;
+            color: #282828;
+        }
+        
+        input[type=date] {
+            background-color: #f8f8f8;
+            color: #282828;
+        }
+        
+        label {
+            font-size: 26px;
+            font-weight: 600;
+        }
+        
+        .button.fit {
+            font-size: 20px;
+        }
+    </style>
+
+</head>
+
+<body id="top">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+            <!-- Boxes -->
+            <div class="thumbnails">
+
+                <div class="box">
+                    <div class="inner">
+                        <a href="{{ url_for('index') }}" class="button fit" data-poptrox="youtube,800x400">Home</a>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="inner">
+                        <a href="{{ url_for('Equipments') }}" class="button fit" data-poptrox="youtube,800x400">View Equipments</a>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="inner">
+                        <a href="{{ url_for('addEquipment') }}" class="button fit" data-poptrox="youtube,800x400">Add new Equipents</a>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="inner">
+                        <a href="{{ url_for('editEquipment') }}" class="button fit" data-poptrox="youtube,800x400">edit Equipments</a>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-form">
+                    <form method="POST" action="{{ url_for('editEquipment') }}" class="register-form" id="register-form" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <div class="form-input">
+                                    <label for="first_name" class="required">Asset ID</label>
+                                    <input type="text" name="Asset_ID" id="first_name" />
+                                </div>
+                                <div class="form-input">
+                                    <label for="chequeno">Installation date</label>
+                                    <input type="date" name="Installation_date" id="chequeno" />
+                                </div>
+                                <div class="form-input">
+                                    <label for="blank_name">Warranty expires</label>
+                                    <input type="date" name="Warranty_expires" id="blank_name" />
+                                </div>
+                                <div class="form-input">
+                                    <label for="payable">Facility</label>
+                                    <input type="text" name="Facility" id="payable" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-input">
+                                    <label for="payable">Building</label>
+                                    <input type="text" name="Building" id="payable" />
+                                </div>
+                                <div class="form-input">
+                                    <label for="payable">Floor</label>
+                                    <input type="text" name="Floor" id="payable" />
+                                </div>
+                                <div class="form-input">
+                                    <label for="payable">Department</label>
+                                    <input type="text" name="Department" id="payable" />
+                                </div>
+
+                                <div class="form-input">
+                                    <label for="chequeno">Scrapping date</label>
+                                    <input type="date" name="Scrapping_date" id="chequeno" />
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-submit">
+                            <input type="submit" value="Submit" class="submit" id="submit" name="submit" />
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+</body>
+
+</html>
