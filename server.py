@@ -1,5 +1,5 @@
 import mysql.connector
-from flask import Flask, redirect, url_for, request,render_template,flash, send_file
+from flask import Flask, redirect, url_for, request,render_template,flash, send_file,session
 from io import BytesIO
 import os
 mydb = mysql.connector.connect(
@@ -10,6 +10,8 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor()
 app = Flask(__name__)
+app.secret_key = "Hello"
+
 app.config['UPLOAD_FOLDER']  ="C:/Users/Lenovo/CMMS/static/uploads"
 @app.route('/')
 def index():
@@ -235,8 +237,6 @@ def editOrder():
 
 
 
-
-
 @app.route('/workreport', methods=['POST','GET'])
 def workreport():
   if request.method == 'POST':
@@ -249,7 +249,7 @@ def workreport():
     cTo = request.form["cTo"]
     dFrom = request.form["dFrom"]
     dTo = request.form["dTo"]
-    q = "SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Name AS `Technition Name`, W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " 
+    q = "SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Phone_number AS `Technition phone`,T.Name AS `Technition Name`, W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " 
     # if (Asset_ID !='' and (Priority=='' and Status=='' and Department=='' and Repair_PM =='' and Technition==''and hours=='' and parts=='' and cFrom=='' and cTo =='' and dFrom=='' and dTo =='')):
     if (Asset_ID =='' and (Priority!='' and Status!='' and Department!='' and Repair_PM !=''  and cFrom!='' and cTo !='' and dFrom!='' and dTo !='')):
       mycursor.execute( q +"WHERE a.Status = '"+Status+"' AND a.Priority = '"+Priority+"' AND e.Department = '"+Department+"' " +
@@ -279,6 +279,13 @@ def workreport():
        
       mycursor.execute(q +"WHERE a.Asset_ID = '"+ Asset_ID+"' AND a.Status = '"+Status+"' AND a.Priority = '"+Priority+"' AND e.Department = '"+Department+"' " +
       " AND a.Creation__date >= '"+ cFrom+"' AND a.Creation__date <= '"+ cTo+"' AND a.`Repair/PM` = '"+Repair_PM+"' ")
+    elif (Asset_ID !='' and (Priority!='' and Status!='' and Department!='' and Repair_PM !='' and cFrom!='' and cTo !='' and dFrom!='' and dTo !='')):
+      mycursor.execute( q +"WHERE a.Asset_ID = '"+ Asset_ID+"' AND a.Status = '"+Status+"' AND a.Priority = '"+Priority+"' AND e.Department = '"+Department+"' " +
+      " AND a.Creation__date >= '"+ cFrom+"' AND a.Creation__date <= '"+ cTo+"' AND a.Due_date >= '"+ dFrom+"' AND a.Due_date <= '"+ dTo+"' AND a.`Repair/PM` = '"+Repair_PM+"' ")
+        
+    elif ( cFrom=='' and cTo =='' and dFrom=='' and dTo =='' and (Asset_ID !='' and Priority!='' and Status!='' and Department!='' and Repair_PM !=''  )):
+      mycursor.execute( q +"WHERE a.Asset_ID = '"+ Asset_ID+"' AND a.Status = '"+Status+"' AND a.Priority = '"+Priority+"' AND e.Department = '"+Department+"' " +
+      "AND a.`Repair/PM` = '"+Repair_PM+"' ")
         
     else:
       return render_template("workreport.html")
@@ -290,39 +297,25 @@ def workreport():
     'rec':myresult,
     'header':row_headers
     }
-    return  wreport(data)
+    session["data"] = data
+
+    return  redirect(url_for("wreport"))
       
 
   else:
     return render_template("workreport.html")
 
 
-
-
-
-
-
 @app.route('/wreport')
-def wreport(data):
+def wreport():
+  if "data" in session:
+    data = session["data"]
+
+    return render_template("wreport.html" , data= data)
   
 
-  return render_template("wreport.html", data = data)
-
-
-
-
-
-
-
-
-
-
-
-@app.route('/Ireport')
-def Ireport(data):
+  return render_template("workreport.html")
   
-
-  return render_template("Ireport.html" , data= data)
 
 
 @app.route('/inventoryreport', methods=['POST','GET'])
@@ -331,18 +324,34 @@ def inventoryreport():
     vendor= request.form["Vendor"]
     asset_id = request.form["Asset_ID"]
     cost = request.form["Cost"]
-    if vendor == '':
-      mycursor.execute("SELECT *FROM inventory WHERE inventory.Vendor='Holmark' AND inventory.Cost='$50 USD' AND inventory.Asset_ID='1'")
-      row_headers=[x[0] for x in mycursor.description] 
-      myresult = mycursor.fetchall()
-      data={
-      'message':"data retrieved",
-      'rec':myresult,
-      'header':row_headers
-      }
-      return Ireport(data)
+    mycursor.execute("SELECT *FROM inventory WHERE inventory.Vendor='"+vendor +"' AND inventory.Cost='"+cost +"' AND inventory.Asset_ID='"+asset_id+"'")
+    row_headers=[x[0] for x in mycursor.description] 
+    myresult = mycursor.fetchall()
+    data={
+    'message':"data retrieved",
+    'rec':myresult,
+    'header':row_headers
+    }
+
+    session["data"] = data
+    return redirect(url_for("Ireport"))
   else:  
     return render_template("inventoryreport.html")
+
+@app.route('/Ireport')
+def Ireport():
+  if "data" in session:
+    data = session["data"]
+
+    return render_template("Ireport.html" , data= data)
+  return render_template("inventoryreport")
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
 	app.run(debug=True)
