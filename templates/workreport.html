@@ -13,6 +13,7 @@
         <link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename='css/ntabstyle.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/nstyleform.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/nreport.css') }}" />
+        <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/ystyle.css') }}" /> -->
 
 		
 		
@@ -28,7 +29,7 @@
                     <ul>
                         <li class="active"><a href="{{ url_for('workreport')}}"><i class="bx bx-home"></i> <span>Work Orders</span></a></li>
                         <li ><a href="{{ url_for('index')}}"><i class="bx bx-user"></i> <span>Equipment History</span></a></li>
-                        <li ><a href=""><i class="bx bx-file-blank"></i> <span>Purchase Orders</span></a></li>
+                        <li ><a href="{{ url_for('inventoryreport')}}"><i class="bx bx-file-blank"></i> <span>Inventory</span></a></li>
                     </ul>
                   </nav>
         
@@ -89,22 +90,11 @@
                                     <option value="Repair">Repair</option>
                                     <option value="PM" >PM</option>
                                 </select>
-                                <label for="destination">Technition SSN</label>
-                                <input type="text" id="status" name="Technition"   />
     
                                 
                                 
                             </div>
-                            <div class="form-date-from form-icon">
-                                <label for="date_from">hours spent</label>
-                                <input type="text" id="status" name="hours"  placeholder="Number of hours to complete" />
-    
-                                <label for="destination">Used parts</label>
-    
-                                <input type="text" id="status" name="parts"   />
-    
-                                
-                            </div>
+                            
                             <div class="form-date-to form-icon">
                                 <label for="date_to" id = "fdate"f>Creation date</label>
                                 <label for="date_to" id = "fdate"f>From</label>
@@ -119,8 +109,9 @@
                                 <label for="date_to" id = "fdate"f>To</label>
                                 <input type="date" id="tdate" class="date_to" name = "dTo" />
                             </div>
+                            
                             <div class="form-submit">
-                                <input type="submit" id="submit" class="submit" value="Search" />
+                            <input type="submit" id="submit" class="submit" value="Search" />
                             </div>
                         </div>
                     </form>

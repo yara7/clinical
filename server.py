@@ -234,6 +234,11 @@ def editOrder():
 
 
 
+
+
+
+
+
 @app.route('/workreport', methods=['POST','GET'])
 def workreport():
   if request.method == 'POST':
@@ -242,19 +247,60 @@ def workreport():
     Status = request.form["Status"]
     Department = request.form["Department"]
     Repair_PM = request.form["Repair_PM"]
-    Technition = request.form["Technition"]
-    hours = request.form["hours"]
-    parts = request.form["parts"]
     cFrom = request.form["cFrom"]
     cTo = request.form["cTo"]
     dFrom = request.form["dFrom"]
     dTo = request.form["dTo"]
-    mycursor.execute("SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Name AS `Technition Name`,"+
-    " W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a JOIN Equipment As e USING(Asset_ID) JOIN Work_on As W USING(Order_number) JOIN Technicians AS T USING(SSN) JOIN Work_Order_Parts AS WP USING(Order_number) " +
-    "WHERE a.Asset_ID = '"+ Asset_ID+"' AND a.Status = '"+Status+"' AND a.Priority = '"+Priority+"' AND e.Department = '"+Department+"' AND W.SSN ='"+Technition+"' " +
-    " AND a.Creation__date >= '"+ cFrom+"' AND a.Creation__date <= '"+ cTo+"' AND a.Due_date >= '"+ dFrom+"' AND a.Due_date <= '"+ dTo+"' AND a.`Repair/PM` = '"+Repair_PM+"' ")
+    
+    # if (Asset_ID !='' and (Priority=='' and Status=='' and Department=='' and Repair_PM =='' and Technition==''and hours=='' and parts=='' and cFrom=='' and cTo =='' and dFrom=='' and dTo =='')):
+    if (Asset_ID =='' and (Priority!='' and Status!='' and Department!='' and Repair_PM !=''  and cFrom!='' and cTo !='' and dFrom!='' and dTo !='')):
+      mycursor.execute("SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Name AS `Technition Name`,"+
+      " W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " +
+      "WHERE a.Status = '"+Status+"' AND a.Priority = '"+Priority+"' AND e.Department = '"+Department+"' " +
+      " AND a.Creation__date >= '"+ cFrom+"' AND a.Creation__date <= '"+ cTo+"' AND a.Due_date >= '"+ dFrom+"' AND a.Due_date <= '"+ dTo+"' AND a.`Repair/PM` = '"+Repair_PM+"' ")
+    elif ( Priority =='' and (Asset_ID !='' and Status!='' and Department!='' and Repair_PM !=''  and cFrom!='' and cTo !='' and dFrom!='' and dTo !='')):    
+      mycursor.execute("SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Name AS `Technition Name`,"+
+      " W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " +
+      "WHERE a.Asset_ID = '"+ Asset_ID+"' AND a.Status = '"+Status+"'  AND e.Department = '"+Department+"' " +
+      " AND a.Creation__date >= '"+ cFrom+"' AND a.Creation__date <= '"+ cTo+"' AND a.Due_date >= '"+ dFrom+"' AND a.Due_date <= '"+ dTo+"' AND a.`Repair/PM` = '"+Repair_PM+"' ")
+        
+    elif (Status =='' and (Priority!='' and Asset_ID !='' and Department!='' and Repair_PM !=''  and cFrom!='' and cTo !='' and dFrom!='' and dTo !='')):      
+    
+      mycursor.execute("SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Name AS `Technition Name`,"+
+      " W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " +
+      "WHERE a.Asset_ID = '"+ Asset_ID+"' AND a.Priority = '"+Priority+"' AND e.Department = '"+Department+"' " +
+      " AND a.Creation__date >= '"+ cFrom+"' AND a.Creation__date <= '"+ cTo+"' AND a.Due_date >= '"+ dFrom+"' AND a.Due_date <= '"+ dTo+"' AND a.`Repair/PM` = '"+Repair_PM+"' ")
+    elif (Department ==''  and (Priority!='' and Status!='' and Asset_ID !='' and Repair_PM !=''  and cFrom!='' and cTo !='' and dFrom!='' and dTo !='')):
+        
+      
+      mycursor.execute("SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Name AS `Technition Name`,"+
+      " W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " +
+      "WHERE a.Asset_ID = '"+ Asset_ID+"' AND a.Status = '"+Status+"' AND a.Priority = '"+Priority+"'  " +
+      " AND a.Creation__date >= '"+ cFrom+"' AND a.Creation__date <= '"+ cTo+"' AND a.Due_date >= '"+ dFrom+"' AND a.Due_date <= '"+ dTo+"' AND a.`Repair/PM` = '"+Repair_PM+"' ")
+    elif (Repair_PM =='' and (Priority!='' and Status!='' and Department!='' and  Asset_ID !='' and cFrom!='' and cTo !='' and dFrom!='' and dTo !='')):
+        
+      mycursor.execute("SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Name AS `Technition Name`,"+
+      " W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " +
+      "WHERE a.Asset_ID = '"+ Asset_ID+"' AND a.Status = '"+Status+"' AND a.Priority = '"+Priority+"' AND e.Department = '"+Department+"' " +
+      " AND a.Creation__date >= '"+ cFrom+"' AND a.Creation__date <= '"+ cTo+"' AND a.Due_date >= '"+ dFrom+"' AND a.Due_date <= '"+ dTo+"'  ")
+    elif ( cFrom =='' and cTo =='' and (Priority!='' and Status!='' and Department!='' and Repair_PM !=''  and Asset_ID !=''  and dFrom!='' and dTo !='')):
+        
+      mycursor.execute("SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Name AS `Technition Name`,"+
+      " W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " +
+      "WHERE a.Asset_ID = '"+ Asset_ID+"' AND a.Status = '"+Status+"' AND a.Priority = '"+Priority+"' AND e.Department = '"+Department+"' " +
+      "  AND a.Due_date >= '"+ dFrom+"' AND a.Due_date <= '"+ dTo+"' AND a.`Repair/PM` = '"+Repair_PM+"' ")
+    elif (  dFrom=='' and dTo =='' and (Priority!='' and Status!='' and Department!='' and Repair_PM !='' and Asset_ID !='' and cFrom!='' and cTo !='' )):
+       
+      mycursor.execute("SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Name AS `Technition Name`,"+
+      " W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " +
+      "WHERE a.Asset_ID = '"+ Asset_ID+"' AND a.Status = '"+Status+"' AND a.Priority = '"+Priority+"' AND e.Department = '"+Department+"' " +
+      " AND a.Creation__date >= '"+ cFrom+"' AND a.Creation__date <= '"+ cTo+"' AND a.`Repair/PM` = '"+Repair_PM+"' ")
+        
+    else:
+      return render_template("workreport.html")
     row_headers=[x[0] for x in mycursor.description] 
     myresult = mycursor.fetchall()
+    print(myresult)
     data={
     'message':"data retrieved",
     'rec':myresult,
@@ -272,6 +318,41 @@ def wreport(data):
 
   return render_template("wreport.html", data = data)
 
+
+
+
+
+
+
+
+
+
+
+@app.route('/Ireport')
+def Ireport(data):
+  
+
+  return render_template("Ireport.html" , data= data)
+
+
+@app.route('/inventoryreport', methods=['POST','GET'])
+def inventoryreport():
+  if request.method == 'POST':
+    vendor= request.form["Vendor"]
+    asset_id = request.form["Asset_ID"]
+    cost = request.form["Cost"]
+    if vendor == '':
+      mycursor.execute("SELECT *FROM inventory WHERE inventory.Vendor='Holmark' AND inventory.Cost='$50 USD' AND inventory.Asset_ID='1'")
+      row_headers=[x[0] for x in mycursor.description] 
+      myresult = mycursor.fetchall()
+      data={
+      'message':"data retrieved",
+      'rec':myresult,
+      'header':row_headers
+      }
+      return Ireport(data)
+  else:  
+    return render_template("inventoryreport.html")
 
 if __name__ == '__main__':
 	app.run(debug=True)
