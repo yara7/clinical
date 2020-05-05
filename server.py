@@ -320,6 +320,7 @@ def wreport():
 
 @app.route('/inventoryreport', methods=['POST','GET'])
 def inventoryreport():
+
   if request.method == 'POST':
     vendor= request.form["Vendor"]
     asset_id = request.form["Asset_ID"]
@@ -347,6 +348,44 @@ def Ireport():
   return render_template("inventoryreport")
 
 
+@app.route('/workOrders', methods=['POST','GET'])
+def workOrders():
+  q = "SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Phone_number AS `Technition phone`,T.Name AS `Technition Name`, W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " 
+
+  if request.method == 'POST':
+    Order_number = request.form["Order_number"]
+    print(Order_number)
+    if Order_number != '' :
+      mycursor.execute(q + " WHERE a.Order_number = '" +Order_number+ "'")
+      row_headers=[x[0] for x in mycursor.description] 
+      myresult = mycursor.fetchall()
+      data={
+      'message':"data retrieved",
+      'rec':myresult,
+      'header':row_headers
+      }
+    else:
+      mycursor.execute(q)
+      row_headers=[x[0] for x in mycursor.description] 
+      myresult = mycursor.fetchall()
+      data={
+      'message':"data retrieved",
+      'rec':myresult,
+      'header':row_headers
+      }
+
+    return render_template("workOrders.html",data=data)
+
+  else:
+    mycursor.execute(q)
+    row_headers=[x[0] for x in mycursor.description] 
+    myresult = mycursor.fetchall()
+    data={
+    'message':"data retrieved",
+    'rec':myresult,
+    'header':row_headers
+    }
+    return render_template("workOrders.html",data=data)
 
 
 
