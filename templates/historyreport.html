@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<!--
+	Full Motion by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>History report</title>
+		<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename='css/ntabstyle.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/nstyleform.css') }}">
+    
+    <style>
+      .container1{
+        width: 700px;
+      }
+    </style>
+
+  </head>
+  
+  <body>
+    <header id="header">
+      <div class="d-flex flex-column">
+        
+          <nav class="nav-menu">
+          <ul>
+              <li><a href="{{ url_for('workreport')}}"><i class="bx bx-home"></i> <span>Work Orders</span></a></li>
+              <li  class="active"><a href="{{ url_for('historyreport')}}"><i class="bx bx-user"></i> <span>Equipment History</span></a></li>
+              <li ><a href="{{ url_for('inventoryreport')}}"><i class="bx bx-file-blank"></i> <span>Inventory</span></a></li>
+          </ul>
+        </nav>
+
+
+      </div>
+    </header>
+
+    <div class="section-title">
+      <h2>Equipment History</h2>
+    </div>
+
+        <div class="container1">
+
+          <form action = "{{ url_for('historyreport') }}" id="booking-form" class="booking-form" method="POST">
+            <div class="form-group">
+                  <div class="form-destination">
+                    <label for="destination"><h4>Equipment</h4></label>
+                    <input type="text" id="destination" name="Equipment SN" placeholder="Enter Equipment SN" />
+
+                  </div>
+                 
+                  <div class="form-submit">
+                      <input type="submit" id="submit" class="submit" value="Search" />
+                  </div>
+              </div>
+          </form>
+
+        </div>
+
+       
+    <script src="{{ url_for('static', filename='js/workorder.js') }}"></script>
+
+
+  </body>
+</html>

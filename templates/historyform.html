@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>History Form</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/nstyleform.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nreport.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hreport.css') }}" />
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"> -->
+    <style>
+      
+      table#t01{
+        position: center;
+        width: 100%;
+        border-spacing: 0;
+        margin-bottom: 30px;
+        margin-left: 30px;
+      }
+      .button.fit{
+        width: 250px;
+        margin-left: 0px;
+        margin-top: 100px;
+
+      }
+      .box .inner {
+    padding: 0px;
+    }
+    .box{
+      background-color: white;
+    }
+      table td, th {
+        font-size: 20px;
+        width: 0vmin;
+      }
+
+      table#t01 th,
+      table#t01 td {
+        text-align: left;
+      }
+  
+      table#t01 th {
+      padding: 5px 20px;
+      color: rgb(0, 0, 0);
+      border-bottom: 0px;
+      white-space: nowrap;        
+      font-weight: bold;
+      width: 3cm;
+      background-color: white;
+      }
+
+            
+      table#t01 td.sub {
+        border-top: 1px solid rgb(255, 255, 255);
+      }
+      table#t01 td.grand {
+        border-top: 1px solid rgb(255, 255, 255);
+      }
+
+            
+      table#t01 tr:nth-child(2n-1) td {
+        background: rgb(255, 255, 255);
+      }
+
+      table#t01 tr:last-child td {
+        background: rgb(255, 255, 255);
+      }
+
+      table#t01 td {
+      padding: 20px;
+      text-align: left;
+      width: 10cm;
+      }
+
+
+      table th {
+      padding: 5px 20px;
+      color: rgb(0, 0, 0);
+      border-bottom: 1px solid #C1CED9;
+      white-space: nowrap;   
+      font-weight: bold;
+      background-color: rgb(158, 177, 192);
+      margin-top: 2px;
+      }
+    
+      table .service,
+      table .desc {
+        text-align: left;
+      }
+      
+      table td {
+        padding: 20px;
+        text-align: center;
+      }
+      
+      table td.service,
+      table td.desc {
+        vertical-align: top;
+      }
+      
+      table td.unit,
+      table td.qty,
+      table td.total {
+        font-size: 1.2em;
+      }
+      
+      table td.sub {
+        border-top: 1px solid #C1CED9;
+      }
+      
+      table td.grand {
+        border-top: 1px solid #5D6975;
+      }
+      
+      table tr:nth-child(2n-1) td {
+        background: #EEEEEE;
+      }
+      
+      table tr:last-child td {
+        background: #DDDDDD;
+      }
+      
+      h2{
+        background-color: rgb(99, 118, 134);
+        text-align: center;
+        margin-bottom: -2.65cm;   
+        font-size: 27px;     
+      }
+
+      .box{
+        margin-right : 10px;
+        margin-left: 10px;
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+    <header id="header">
+      <h1> {{data.rec[0][1]}} </h1>
+    </header>
+    <main>
+
+      <table id = "t01">
+        <tr>
+          <th>Name: </th>
+          <td>{{data.rec[0][1]}}</td>
+          <th>Asset Code: </th>
+          <td>{{data.rec[0][0]}}</td>
+        </tr>
+        <tr>
+          <th>Manufacturer: </th>
+          <td>{{data.rec[0][5]}}</td>
+          <th>Department: </th>
+          <td>{{data.rec[0][11]}}</td>
+        </tr>
+        <tr>
+          <th>Model: </th>
+          <td>{{data.rec[0][3]}}</td>
+          <th>Location: </th>
+          <td>Building {{data.rec[0][9]}}, Floor {{data.rec[0][10]}} </td>
+        </tr>
+        <tr>
+          <th>Installation Date: </th>
+          <td>{{data.rec[0][6]}}</td>
+          <th>Frequency of PM: </th>
+          <td>{{data.rec2[0][8]}}</td>
+        </tr>
+        <tr>
+          <th>Serial Number: </th>
+          <td>{{data.rec[0][2]}}</td>
+          <th>Warranty Expiration: </th>
+          <td>{{data.rec[0][7]}}</td>
+        </tr>
+      </table>
+      <header id="header">
+        <h2> Completed Work Orders </h2>
+      </header>
+      <table>
+
+        <tr id="header">
+          <th>{{data.header2[0] }}</th>
+          <th>{{data.header2[5] }}</th>
+          <th>Completion date</th>
+          <th>{{data.header2[10] }}</th>
+          <th>{{data.header2[11] }}</th>
+        </tr>
+        
+        {%for r in data.rec2 %}
+        <tr>
+        
+          <td> {{ r[0] }}</td>
+          <td> {{ r[5] }}</td>
+          <td> {{ r[6] }}</td>
+          <td> {{ r[10] }}</td>
+          <td> {{ r[11] }}</td>
+        </tr>
+        
+        {% endfor %}
+        
+      </table>
+
+      <div class="thumbnails">
+        <div class = "form-group">
+          <div class="box">
+              <div class="inner">
+                <a href="{{ url_for('historyreport') }}" class="button fit" data-poptrox="youtube,800x400">Back</a>
+              </div>
+          </div>
+          <div class="box">
+            <div class="inner">
+              <a href="{{ url_for('index') }}" class="button fit" data-poptrox="youtube,800x400">Home</a>
+            </div>
+        </div>
+      </div>
+
+
+    <script src="{{ url_for('static', filename='js/workorder.js') }}"></script>
+
+
+  </body>
+</html>

@@ -12,8 +12,7 @@
         
         <link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename='css/ntabstyle.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/nstyleform.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/nreport.css') }}" />
-        <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/ystyle.css') }}" /> -->
+        <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/nreport.css') }}" /> -->
 
 		
 		
@@ -28,7 +27,7 @@
                     <nav class="nav-menu">
                     <ul>
                         <li class="active"><a href="{{ url_for('workreport')}}"><i class="bx bx-home"></i> <span>Work Orders</span></a></li>
-                        <li ><a href="{{ url_for('index')}}"><i class="bx bx-user"></i> <span>Equipment History</span></a></li>
+                        <li ><a href="{{ url_for('historyreport')}}"><i class="bx bx-user"></i> <span>Equipment History</span></a></li>
                         <li ><a href="{{ url_for('inventoryreport')}}"><i class="bx bx-file-blank"></i> <span>Inventory</span></a></li>
                     </ul>
                   </nav>

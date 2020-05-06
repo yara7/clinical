@@ -404,7 +404,46 @@ def workOrders():
     return render_template("workOrders.html",data=data)
 
 
+@app.route('/historyreport', methods=['POST','GET'])
+def historyreport():
+  if request.method == 'POST':
+    eqSN = request.form["Equipment SN"]
+    print(eqSN)
+    if eqSN == '':
+      return render_template('historyreport.html')
 
+    else:
+      mycursor.execute("SELECT * FROM Equipment WHERE Serial_number = '"+eqSN+"'" )
+      row_headers1=[x[0] for x in mycursor.description] 
+      myresult1 = mycursor.fetchall()
+      assetID = str(myresult1[0][0])
+
+      #assetID, name, SN, mNum, mName, manufacturer, insDate, warranty, facility, building, floor, department, *z = mycursor.fetchall()
+      mycursor.execute("SELECT * FROM Work_orders WHERE Asset_ID = '"+assetID+"' AND Status = 'Completed'")
+      row_headers2=[x[0] for x in mycursor.description] 
+      myresult2 = mycursor.fetchall()
+
+      data={
+      'message':"data retrieved",
+      'rec':myresult1,
+      'header':row_headers1,
+      'rec2':myresult2,
+      'header2':row_headers2
+      }
+      #print ("data = ", data)
+      session["data"] = data
+      return redirect(url_for("historyform"))
+    
+  else:
+    return render_template('historyreport.html')
+
+@app.route('/historyform')
+def historyform():
+  if "data" in session:
+    data = session["data"]
+    return render_template("historyform.html", data=data)
+  else:
+    return render_template("historyreport.html")
 
 
 

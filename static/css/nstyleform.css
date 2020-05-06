@@ -197,8 +197,9 @@ h1 {
 .container1 {
   width: 1700px;
   background: rgba(139, 139, 141, 0.6);
-  /* margin: 265px auto; */
+  margin: 265px auto;
   margin: 10px auto;
+  margin-left: 550px;
   border-radius: 10px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -207,6 +208,8 @@ h1 {
 
 .booking-form {
   /* padding: 35px 70px 51px 70px; } */
+  margin-top: 200px;
+  /* margin-left: 500px; */
   padding: 20px 70px 20px 70px; }
  
 
