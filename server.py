@@ -26,18 +26,15 @@ def Equipments():
     warranty = request.form["Warranty date"]
     if equipment == '':
       mycursor.execute("SELECT * FROM Equipment")
-      row_headers=[x[0] for x in mycursor.description] 
-      myresult = mycursor.fetchall()
-      data={
-      'message':"data retrieved",
-      'rec':myresult,
-      'header':row_headers
-      }
-      return render_template("Equipments.html",data=data)
-      # return render_template("Equipments.php",data=data)
+      
+    elif(equipment != '' and installation =='' and warranty==''):
+      mycursor.execute("SELECT * FROM Equipment WHERE Name= '" +equipment+ "' ")
 
-    else :
+    elif(installation !='' and warranty !='' and equipment != '') :
       mycursor.execute("SELECT * FROM Equipment WHERE Name= '" +equipment+ "' AND Installation_date = '" +installation+ "' AND Warranty_expires = '" +warranty+ "' ")
+
+    else:
+      mycursor.execute("SELECT * FROM Equipment")
       row_headers=[x[0] for x in mycursor.description] 
       myresult = mycursor.fetchall()
       data={
@@ -46,8 +43,14 @@ def Equipments():
       'header':row_headers
       }
       return render_template("Equipments.html",data=data)
-      # return render_template("Equipments.php",data=data)
-
+    row_headers=[x[0] for x in mycursor.description] 
+    myresult = mycursor.fetchall()
+    data={
+    'message':"data retrieved",
+    'rec':myresult,
+    'header':row_headers
+    }
+    return render_template("Equipments.html",data=data)
   else:
     mycursor.execute("SELECT * FROM Equipment")
     row_headers=[x[0] for x in mycursor.description] 
@@ -97,7 +100,7 @@ def parts():
     Name = request.form["Name"]
     print(Name)
     if Name != '' :
-      mycursor.execute("SELECT Inventory.Part_Number,Inventory.Name,Inventory.Asset_ID,Inventory.Vendor,Inventory.Cost,Inventory.Quantity,Equipment.Name as Asset_Name FROM `Inventory` JOIN `Equipment` WHERE Equipment.Asset_ID=Inventory.Asset_ID AND Inventory.Name = '" +Name+ "'") 
+      mycursor.execute("SELECT Inventory.Part_Number,Inventory.Name,Inventory.Asset_ID,Inventory.Vendor,Inventory.Cost_USD,Inventory.Quantity,Equipment.Name as Asset_Name FROM `Inventory` JOIN `Equipment` WHERE Equipment.Asset_ID=Inventory.Asset_ID AND Inventory.Name = '" +Name+ "'") 
       row_headers=[x[0] for x in mycursor.description] 
       myresult = mycursor.fetchall()
       data={
@@ -106,7 +109,7 @@ def parts():
       'header':row_headers
       }
     else:
-      mycursor.execute("SELECT Inventory.Part_Number,Inventory.Name,Inventory.Asset_ID,Inventory.Vendor,Inventory.Cost,Inventory.Quantity,Equipment.Name as Asset_Name FROM `Inventory` JOIN `Equipment` WHERE Equipment.Asset_ID=Inventory.Asset_ID")
+      mycursor.execute("SELECT Inventory.Part_Number,Inventory.Name,Inventory.Asset_ID,Inventory.Vendor,Inventory.Cost_USD,Inventory.Quantity,Equipment.Name as Asset_Name FROM `Inventory` JOIN `Equipment` WHERE Equipment.Asset_ID=Inventory.Asset_ID")
       row_headers=[x[0] for x in mycursor.description] 
       myresult = mycursor.fetchall()
       data={
@@ -118,7 +121,7 @@ def parts():
     return render_template("parts.html",data=data)
 
   else:
-    mycursor.execute("SELECT Inventory.Part_Number,Inventory.Name,Inventory.Asset_ID,Inventory.Vendor,Inventory.Cost,Inventory.Quantity,Equipment.Name as Asset_Name FROM `Inventory` JOIN `Equipment` WHERE Equipment.Asset_ID=Inventory.Asset_ID")
+    mycursor.execute("SELECT Inventory.Part_Number,Inventory.Name,Inventory.Asset_ID,Inventory.Vendor,Inventory.Cost_USD,Inventory.Quantity,Equipment.Name as Asset_Name FROM `Inventory` JOIN `Equipment` WHERE Equipment.Asset_ID=Inventory.Asset_ID")
     row_headers=[x[0] for x in mycursor.description] 
     myresult = mycursor.fetchall()
     data={
@@ -137,7 +140,7 @@ def addParts():
    Vendor = request.form["Vendor"]
    Cost = request.form["Cost"]
    Quantity = request.form["Quantity"]
-   sql = "INSERT INTO Inventory(Part_Number, Name ,Asset_ID ,Vendor,Cost,Quantity) VALUES (%s,%s,%s, %s ,%s ,%s)"
+   sql = "INSERT INTO Inventory(Part_Number, Name ,Asset_ID ,Vendor,Cost_USD,Quantity) VALUES (%s,%s,%s, %s ,%s ,%s)"
    val = (Part_Number, Name ,Asset_ID ,Vendor,Cost,Quantity)
    mycursor.execute(sql, val)
    mydb.commit() 
@@ -175,7 +178,7 @@ def editParts():
     Vendor = request.form["Vendor"]
     Cost = request.form["Cost"]
     Quantity = request.form["Quantity"]
-    sql = """UPDATE Inventory set Vendor=%s,Cost=%s,Quantity=%s where Part_Number=%s """
+    sql = "UPDATE Inventory set Vendor=%s,Cost_USD=%s,Quantity=%s where Part_Number=%s "
     val = (Vendor,Cost,Quantity,Part_Number)
     mycursor.execute(sql, val)
     mydb.commit() 
@@ -249,7 +252,7 @@ def workreport():
     cTo = request.form["cTo"]
     dFrom = request.form["dFrom"]
     dTo = request.form["dTo"]
-    q = "SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Phone_number AS `Technition phone`,T.Name AS `Technition Name`, W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " 
+    q = "SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Repair_cost,e.Department, W.SSN AS `Technition SSN`, T.Phone_number AS `Technition phone`,T.Name AS `Technition Name`, W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " 
     # if (Asset_ID !='' and (Priority=='' and Status=='' and Department=='' and Repair_PM =='' and Technition==''and hours=='' and parts=='' and cFrom=='' and cTo =='' and dFrom=='' and dTo =='')):
     if (Asset_ID =='' and (Priority!='' and Status!='' and Department!='' and Repair_PM !=''  and cFrom!='' and cTo !='' and dFrom!='' and dTo !='')):
       mycursor.execute( q +"WHERE a.Status = '"+Status+"' AND a.Priority = '"+Priority+"' AND e.Department = '"+Department+"' " +
@@ -320,12 +323,26 @@ def wreport():
 
 @app.route('/inventoryreport', methods=['POST','GET'])
 def inventoryreport():
-
   if request.method == 'POST':
     vendor= request.form["Vendor"]
     asset_id = request.form["Asset_ID"]
-    cost = request.form["Cost"]
-    mycursor.execute("SELECT *FROM inventory WHERE inventory.Vendor='"+vendor +"' AND inventory.Cost='"+cost +"' AND inventory.Asset_ID='"+asset_id+"'")
+    costfrom = request.form["Costfrom"]
+    costto=request.form["Costto"]
+    q = "SELECT * From Inventory  "
+    if (asset_id =='' and ( vendor!='' and costto!=''  and costfrom!='')):
+      sql = q +"WHERE  Vendor = '"+vendor+"' AND Cost_USD >= %d  AND  Cost_USD <= %d "  % (int(costfrom),int(costto))
+      mycursor.execute(sql )
+    elif (vendor =='' and ( asset_id!='' and costto !='' and costfrom !='' )):
+      sql = q +"WHERE  Asset_ID = '"+asset_id+"' Cost_USD >= %d  AND  Cost_USD <= %d " % (int(costfrom),int(costto))
+      mycursor.execute( sql )
+    elif (costfrom =='' and (  asset_id!='' and vendor!=''  and costto=='')):
+      mycursor.execute( q +"WHERE Vendor = '"+vendor+"' AND Asset_ID = '"+asset_id+"'  ")
+    elif (asset_id !='' and ( vendor!='' and costfrom!=''  and costto!='')):
+      sql = q+ " WHERE  Inventory.Vendor = '"+vendor+"' AND Inventory.Asset_ID = '"+asset_id+"' AND Cost_USD >= %d AND Cost_USD <= %d " % (int(costfrom),int(costto))
+      mycursor.execute( sql ) 
+
+    else:
+      return render_template("inventoryreport.html")
     row_headers=[x[0] for x in mycursor.description] 
     myresult = mycursor.fetchall()
     data={
@@ -343,14 +360,13 @@ def inventoryreport():
 def Ireport():
   if "data" in session:
     data = session["data"]
-
     return render_template("Ireport.html" , data= data)
   return render_template("inventoryreport")
 
 
 @app.route('/workOrders', methods=['POST','GET'])
 def workOrders():
-  q = "SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Demand_cost,e.Department, W.SSN AS `Technition SSN`, T.Phone_number AS `Technition phone`,T.Name AS `Technition Name`, W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " 
+  q = "SELECT a.Order_number,a.Asset_ID,a.Name,a.Status,a.Creation__date,a.`Repair/PM`, a.Due_date,a.PM_date,a.PM_frequency,a.Priority,a.Description,a.Repair_cost,e.Department, W.SSN AS `Technition SSN`, T.Phone_number AS `Technition phone`,T.Name AS `Technition Name`, W.Number_of_hours, WP.Part_used FROM `Work_orders` AS a LEFT JOIN Equipment As e USING(Asset_ID) LEFT JOIN Work_on As W USING(Order_number) LEFT JOIN Technicians AS T USING(SSN) LEFT JOIN Work_Order_Parts AS WP USING(Order_number) " 
 
   if request.method == 'POST':
     Order_number = request.form["Order_number"]
