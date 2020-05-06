@@ -98,7 +98,6 @@ def parts():
 
   if request.method == 'POST':
     Name = request.form["Name"]
-    print(Name)
     if Name != '' :
       mycursor.execute("SELECT Inventory.Part_Number,Inventory.Name,Inventory.Asset_ID,Inventory.Vendor,Inventory.Cost_USD,Inventory.Quantity,Equipment.Name as Asset_Name FROM `Inventory` JOIN `Equipment` WHERE Equipment.Asset_ID=Inventory.Asset_ID AND Inventory.Name = '" +Name+ "'") 
       row_headers=[x[0] for x in mycursor.description] 
@@ -294,7 +293,6 @@ def workreport():
       return render_template("workreport.html")
     row_headers=[x[0] for x in mycursor.description] 
     myresult = mycursor.fetchall()
-    print(myresult)
     data={
     'message':"data retrieved",
     'rec':myresult,
@@ -370,7 +368,6 @@ def workOrders():
 
   if request.method == 'POST':
     Order_number = request.form["Order_number"]
-    print(Order_number)
     if Order_number != '' :
       mycursor.execute(q + " WHERE a.Order_number = '" +Order_number+ "'")
       row_headers=[x[0] for x in mycursor.description] 
@@ -408,7 +405,6 @@ def workOrders():
 def historyreport():
   if request.method == 'POST':
     eqSN = request.form["Equipment SN"]
-    print(eqSN)
     if eqSN == '':
       return render_template('historyreport.html')
 
@@ -417,12 +413,10 @@ def historyreport():
       row_headers1=[x[0] for x in mycursor.description] 
       myresult1 = mycursor.fetchall()
       assetID = str(myresult1[0][0])
-
       #assetID, name, SN, mNum, mName, manufacturer, insDate, warranty, facility, building, floor, department, *z = mycursor.fetchall()
       mycursor.execute("SELECT * FROM Work_orders WHERE Asset_ID = '"+assetID+"' AND Status = 'Completed'")
       row_headers2=[x[0] for x in mycursor.description] 
       myresult2 = mycursor.fetchall()
-
       data={
       'message':"data retrieved",
       'rec':myresult1,
@@ -430,10 +424,16 @@ def historyreport():
       'rec2':myresult2,
       'header2':row_headers2
       }
-      #print ("data = ", data)
-      session["data"] = data
-      return redirect(url_for("historyform"))
-    
+
+      if (myresult2 != []):
+        #print ("data = ", data)
+        session["data"] = data
+        return redirect(url_for("historyform"))
+      else:
+        return render_template('historyreport.html')
+
+
+      
   else:
     return render_template('historyreport.html')
 
