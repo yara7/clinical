@@ -2,6 +2,8 @@ import mysql.connector
 from flask import Flask, redirect, url_for, request,render_template,flash, send_file,session
 from io import BytesIO
 import os
+from datetime import date
+
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
@@ -445,7 +447,66 @@ def historyform():
   else:
     return render_template("historyreport.html")
 
+@app.route('/todaysM')
+def todaysM():
+  today = date.today()
 
+  mycursor.execute("SELECT * FROM Work_orders WHERE PM_frequency = 'Monthly' AND `Repair/PM` = 'PM' ")
+  row_headers=[x[0] for x in mycursor.description] 
+  myresult = mycursor.fetchall()
+  data={
+  'message':"data retrieved",
+  'rec':myresult,
+  'header':row_headers,
+  
+  }
+  mycursor.execute("SELECT * FROM Work_orders WHERE PM_frequency = 'Yearly' AND `Repair/PM` = 'PM' ")
+  row_headers2=[x[0] for x in mycursor.description] 
+  myresult2 = mycursor.fetchall()
+  data2={
+  'message':"data retrieved",
+  'rec':myresult2,
+  'header':row_headers2,
+  
+  }
+
+  mycursor.execute("SELECT * FROM Work_orders WHERE PM_frequency = 'Weakly' AND `Repair/PM` = 'PM' ")
+  row_headers3=[x[0] for x in mycursor.description] 
+  myresult3 = mycursor.fetchall()
+  data3={
+  'message':"data retrieved",
+  'rec':myresult3,
+  'header':row_headers3,
+  
+  }
+  print(myresult3)
+  myresult4 = []
+  if (myresult != []):
+
+    for i in range(len(myresult)):
+      if (myresult[i][7].day == today.day):
+        myresult4.append(myresult[i])
+    
+  if (myresult2 != []):
+    for i in range(len(myresult2)):
+      if (myresult2[i][7].day == today.day and myresult2[i][7].month == today.month ):
+        myresult4.append(myresult2[i])
+
+  if (myresult3 != []):
+
+    for i in range(len(myresult3)):
+      if (myresult3[i][7].strftime('%A') == today.strftime('%A') ):
+        myresult4.append(myresult3[i])
+    
+  data={
+  'message':"data retrieved",
+  'rec':myresult4,
+  'header':row_headers,
+  
+  }
+ 
+  return render_template("todaysM.html" , data=data)
+  
 
 if __name__ == '__main__':
 	app.run(debug=True)

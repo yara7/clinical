@@ -7,7 +7,7 @@
 <html>
 
 <head>
-    <title>workOrders</title>
+    <title>Equipments</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
@@ -32,8 +32,8 @@
             font-weight: bold;
         }
         
-        .container {
-            width: 600px;
+        a:hover {
+            color: black;
         }
         
         a {
@@ -66,17 +66,17 @@
 
                 <div class="box">
                     <div class="inner">
-                        <a href="{{ url_for('workOrders') }}" class="button fit" data-poptrox="youtube,800x400">View workOrder</a>
+                        <a href="{{ url_for('workOrders') }}" class="button fit" data-poptrox="youtube,800x400">View WorkOrders</a>
                     </div>
                 </div>
                 <div class="box">
                     <div class="inner">
-                        <a href="{{ url_for('addOrder') }}" class="button fit" data-poptrox="youtube,800x400">Add new workOrder</a>
+                        <a href="{{ url_for('addOrder') }}" class="button fit" data-poptrox="youtube,800x400">Add new WorkOrder</a>
                     </div>
                 </div>
                 <div class="box">
                     <div class="inner">
-                        <a href="{{ url_for('editOrder') }}" class="button fit" data-poptrox="youtube,800x400">edit workOrder</a>
+                        <a href="{{ url_for('editOrder') }}" class="button fit" data-poptrox="youtube,800x400">editOrder</a>
                     </div>
                 </div>
                 <div class="box">
@@ -86,27 +86,11 @@
                 </div>
 
 
-
             </div>
 
         </div>
     </div>
 
-    <div class="container">
-        <form action="{{ url_for('workOrders') }}" id="booking-form" class="booking-form" method="POST">
-            <div class="form-group">
-                <div class="form-destination">
-                    <label for="destination">Order_number</label>
-                    <input type="text" id="destination" name="Order_number" placeholder="Pick Order_number" />
-                </div>
-
-
-                <div class="form-submit">
-                    <input type="submit" id="submit" class="submit" value="Search" />
-                </div>
-            </div>
-        </form>
-    </div>
 
 
 
@@ -130,6 +114,7 @@
         </tr>
         {% endfor %}
     </table>
+
 
 </body>
 
