@@ -82,16 +82,20 @@ def addEquipment():
     Department = request.form["Department"]
     Scrapping_date = request.form["Scrapping_date"]
     filedata = request.files['Data_sheet'] 
-    # sheet = filedata.filename
     sheet = Name+'_'+Asset_ID+'.pdf'
     uploads_dir = "C:/Users/Lenovo/CMMS/static/uploads"
     filedata.save(os.path.join(uploads_dir, sheet))  
-    sql = "INSERT INTO Equipment(Asset_ID, Name ,Serial_number ,Model_number,Model_name,Manufacturer,Installation_date,Warranty_expires,Facility,Building,Floor,Department,Scrapping_date,Data_sheet) VALUES (%s,%s,%s, %s ,%s ,%s,%s, %s ,%s,%s,%s,%s,%s,%s )"
-    val = (Asset_ID, Name ,Serial_number ,Model_number,Model_name,Manufacturer,Installation_date,Warranty_expires,Facility,Building,Floor,Department,Scrapping_date, sheet)
-    mycursor.execute(sql, val)
-    mydb.commit() 
-    return render_template("/addEquipment.html")
-	
+    mycursor.execute("SELECT * FROM Equipment WHERE  Asset_ID = '" +Asset_ID+ "' ")
+    myresult = mycursor.fetchall()
+    if myresult :
+      return render_template("/addEquipment.html", message="This ID already exists! ") 
+    else :  
+      sql = "INSERT INTO Equipment(Asset_ID, Name ,Serial_number ,Model_number,Model_name,Manufacturer,Installation_date,Warranty_expires,Facility,Building,Floor,Department,Scrapping_date,Data_sheet) VALUES (%s,%s,%s, %s ,%s ,%s,%s, %s ,%s,%s,%s,%s,%s,%s )"
+      val = (Asset_ID, Name ,Serial_number ,Model_number,Model_name,Manufacturer,Installation_date,Warranty_expires,Facility,Building,Floor,Department,Scrapping_date, sheet)
+      mycursor.execute(sql, val)
+      mydb.commit() 
+      return render_template("/addEquipment.html")
+
   else:
     return render_template("/addEquipment.html")
  
@@ -141,12 +145,17 @@ def addParts():
    Vendor = request.form["Vendor"]
    Cost = request.form["Cost"]
    Quantity = request.form["Quantity"]
-   sql = "INSERT INTO Inventory(Part_Number, Name ,Asset_ID ,Vendor,Cost_USD,Quantity) VALUES (%s,%s,%s, %s ,%s ,%s)"
-   val = (Part_Number, Name ,Asset_ID ,Vendor,Cost,Quantity)
-   mycursor.execute(sql, val)
-   mydb.commit() 
-    
-   return render_template("addParts.html")
+   mycursor.execute("SELECT * FROM Inventory WHERE  Part_Number = '" +Part_Number+ "' ")
+   myresult = mycursor.fetchall()
+   if myresult :
+     return render_template("/addParts.html", message="This Part Number already exists! ") 
+   else:
+     sql = "INSERT INTO Inventory(Part_Number, Name ,Asset_ID ,Vendor,Cost_USD,Quantity) VALUES (%s,%s,%s, %s ,%s ,%s)"
+     val = (Part_Number, Name ,Asset_ID ,Vendor,Cost,Quantity)
+     mycursor.execute(sql, val)
+     mydb.commit() 
+      
+     return render_template("addParts.html")
 
  else:
 
@@ -163,11 +172,17 @@ def editEquipment():
     Floor = request.form["Floor"]
     Department = request.form["Department"]
     Scrapping_date = request.form["Scrapping_date"]
-    sql = """UPDATE Equipment set Installation_date=%s,Warranty_expires=%s,Facility=%s,Building=%s,Floor=%s,Department=%s,Scrapping_date=%s where Asset_ID=%s """
-    val = (Installation_date,Warranty_expires,Facility,Building,Floor,Department,Scrapping_date,Asset_ID)
-    mycursor.execute(sql, val)
-    mydb.commit() 
-    return render_template("/editEquipment.html")
+    mycursor.execute("SELECT * FROM Equipment WHERE  Asset_ID = '" +Asset_ID+ "' ")
+    myresult = mycursor.fetchall()
+    if myresult :
+      
+      sql = """UPDATE Equipment set Installation_date=%s,Warranty_expires=%s,Facility=%s,Building=%s,Floor=%s,Department=%s,Scrapping_date=%s where Asset_ID=%s """
+      val = (Installation_date,Warranty_expires,Facility,Building,Floor,Department,Scrapping_date,Asset_ID)
+      mycursor.execute(sql, val)
+      mydb.commit() 
+      return render_template("/editEquipment.html")
+    else :
+      return render_template("/editEquipment.html", message="This Asset ID does not exist! ") 
 	
   else:
     return render_template("/editEquipment.html")
@@ -179,11 +194,17 @@ def editParts():
     Vendor = request.form["Vendor"]
     Cost = request.form["Cost"]
     Quantity = request.form["Quantity"]
-    sql = "UPDATE Inventory set Vendor=%s,Cost_USD=%s,Quantity=%s where Part_Number=%s "
-    val = (Vendor,Cost,Quantity,Part_Number)
-    mycursor.execute(sql, val)
-    mydb.commit() 
-    return render_template("/editParts.html")
+    mycursor.execute("SELECT * FROM Inventory WHERE  Part_Number = '" +Part_Number+ "' ")
+    myresult = mycursor.fetchall()
+    if myresult :
+      
+      sql = "UPDATE Inventory set Vendor=%s,Cost_USD=%s,Quantity=%s where Part_Number=%s "
+      val = (Vendor,Cost,Quantity,Part_Number)
+      mycursor.execute(sql, val)
+      mydb.commit() 
+      return render_template("/editParts.html")
+    else:
+      return render_template("/editParts.html", message="This Part Number does not exist! ") 
 	
   else:
     return render_template("/editParts.html")
@@ -205,11 +226,16 @@ def addOrder():
     Priority = request.form["Priority"]
     Description = request.form["Description"]
     Demand_cost = request.form["Demand_cost"] 
-    sql = "INSERT INTO Work_orders(Asset_ID, Name ,Order_number ,Status,`Repair/PM`,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Demand_cost) VALUES (%s, %s ,%s ,%s,%s, %s ,%s,%s,%s,%s,%s,%s )"
-    val = (Asset_ID, Name ,Order_number ,Status,Demand_PM,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Demand_cost)
-    mycursor.execute(sql, val)
-    mydb.commit() 
-    return render_template("/addOrder.html")
+    mycursor.execute("SELECT * FROM Work_orders WHERE  Order_number = '" +Order_number+ "' ")
+    myresult = mycursor.fetchall()
+    if myresult :
+      return render_template("/addOrder.html", message="This work order Number already exists! ") 
+    else:
+      sql = "INSERT INTO Work_orders(Asset_ID, Name ,Order_number ,Status,`Repair/PM`,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Demand_cost) VALUES (%s, %s ,%s ,%s,%s, %s ,%s,%s,%s,%s,%s,%s )"
+      val = (Asset_ID, Name ,Order_number ,Status,Demand_PM,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Demand_cost)
+      mycursor.execute(sql, val)
+      mydb.commit() 
+      return render_template("/addOrder.html")
 	
   else:
     return render_template("/addOrder.html")
@@ -228,11 +254,17 @@ def editOrder():
     Priority = request.form["Priority"]
     Description = request.form["Description"]
     Demand_cost = request.form["Demand_cost"]
-    sql = """UPDATE Work_orders set Name=%s,Status=%s,`Repair/PM`=%s,Due_date=%s,Creation__date=%s,PM_date=%s,PM_frequency=%s,Priority=%s,Description=%s,Demand_cost=%s  where Order_number=%s """
-    val = (Name,Status,Demand_PM,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Demand_cost,Order_number)
-    mycursor.execute(sql, val)
-    mydb.commit() 
-    return render_template("/editOrder.html")
+    mycursor.execute("SELECT * FROM Work_orders WHERE  Order_number = '" +Order_number+ "' ")
+    myresult = mycursor.fetchall()
+    if myresult :
+      
+      sql = """UPDATE Work_orders set Name=%s,Status=%s,`Repair/PM`=%s,Due_date=%s,Creation__date=%s,PM_date=%s,PM_frequency=%s,Priority=%s,Description=%s,Demand_cost=%s  where Order_number=%s """
+      val = (Name,Status,Demand_PM,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Demand_cost,Order_number)
+      mycursor.execute(sql, val)
+      mydb.commit() 
+      return render_template("/editOrder.html")
+    else :
+      return render_template("/editOrder.html", message="This work order Number does not exist! ") 
 	
   else:
     return render_template("/editOrder.html")
