@@ -14,7 +14,7 @@ mycursor = mydb.cursor()
 app = Flask(__name__)
 app.secret_key = "Hello"
 
-app.config['UPLOAD_FOLDER']  ="C:/Users/Lenovo/CMMS/static/uploads"
+app.config['UPLOAD_FOLDER']  = "C:\\Users\\Lenovo\\Documents\\GitHub\\clinical\\static\\uploads"
 @app.route('/')
 def index():
 	return render_template("index.html")
@@ -26,7 +26,7 @@ def Equipments():
     equipment = request.form["Equipment"]
     installation = request.form["Installation date"]
     warranty = request.form["Warranty date"]
-    if equipment == '':
+    if (equipment == '' and installation =='' and warranty==''):
       mycursor.execute("SELECT * FROM Equipment")
       
     elif(equipment != '' and installation =='' and warranty==''):
@@ -34,6 +34,9 @@ def Equipments():
 
     elif(installation !='' and warranty !='' and equipment != '') :
       mycursor.execute("SELECT * FROM Equipment WHERE Name= '" +equipment+ "' AND Installation_date = '" +installation+ "' AND Warranty_expires = '" +warranty+ "' ")
+    elif(installation !='' and warranty !='' and equipment == '') :
+      print("Hiiiiiiiii")
+      mycursor.execute("SELECT * FROM Equipment WHERE  Installation_date = '" +installation+ "' AND Warranty_expires = '" +warranty+ "' ")
 
     else:
       mycursor.execute("SELECT * FROM Equipment")
@@ -83,7 +86,7 @@ def addEquipment():
     Scrapping_date = request.form["Scrapping_date"]
     filedata = request.files['Data_sheet'] 
     sheet = Name+'_'+Asset_ID+'.pdf'
-    uploads_dir = "C:/Users/Lenovo/CMMS/static/uploads"
+    uploads_dir = "C:\\Users\\Lenovo\\Documents\\GitHub\\clinical\\static\\uploads"
     filedata.save(os.path.join(uploads_dir, sheet))  
     mycursor.execute("SELECT * FROM Equipment WHERE  Asset_ID = '" +Asset_ID+ "' ")
     myresult = mycursor.fetchall()
