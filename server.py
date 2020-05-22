@@ -395,10 +395,10 @@ def inventoryreport():
 @app.route('/Ireport')
 def Ireport():
 
-  today = date.today
+  today = date.today()
   if "data" in session:
     data = session["data"]
-    return render_template("Ireport.html" , data= data, today =today)
+    return render_template("Ireport.html" , data= data, today = today)
   return render_template("inventoryreport")
 
 
