@@ -346,10 +346,11 @@ def workreport():
 
 @app.route('/wreport')
 def wreport():
+  today = date.today()
   if "data" in session:
     data = session["data"]
 
-    return render_template("wreport.html" , data= data)
+    return render_template("wreport.html" , data= data, today = today)
   
 
   return render_template("workreport.html")
@@ -393,9 +394,11 @@ def inventoryreport():
 
 @app.route('/Ireport')
 def Ireport():
+
+  today = date.today
   if "data" in session:
     data = session["data"]
-    return render_template("Ireport.html" , data= data)
+    return render_template("Ireport.html" , data= data, today =today)
   return render_template("inventoryreport")
 
 
