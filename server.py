@@ -450,7 +450,6 @@ def historyreport():
       row_headers1=[x[0] for x in mycursor.description] 
       myresult1 = mycursor.fetchall()
       assetID = str(myresult1[0][0])
-      #assetID, name, SN, mNum, mName, manufacturer, insDate, warranty, facility, building, floor, department, *z = mycursor.fetchall()
       mycursor.execute("SELECT * FROM Work_orders WHERE Asset_ID = '"+assetID+"' AND Status = 'Completed'")
       row_headers2=[x[0] for x in mycursor.description] 
       myresult2 = mycursor.fetchall()
@@ -463,7 +462,6 @@ def historyreport():
       }
 
       if (myresult2 != []):
-        #print ("data = ", data)
         session["data"] = data
         return redirect(url_for("historyform"))
       else:
