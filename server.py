@@ -35,7 +35,7 @@ def Equipments():
     elif(installation !='' and warranty !='' and equipment != '') :
       mycursor.execute("SELECT * FROM Equipment WHERE Name= '" +equipment+ "' AND Installation_date = '" +installation+ "' AND Warranty_expires = '" +warranty+ "' ")
     elif(installation !='' and warranty !='' and equipment == '') :
-      print("Hiiiiiiiii")
+     
       mycursor.execute("SELECT * FROM Equipment WHERE  Installation_date = '" +installation+ "' AND Warranty_expires = '" +warranty+ "' ")
 
     else:
@@ -234,7 +234,7 @@ def addOrder():
     if myresult :
       return render_template("/addOrder.html", message="This work order Number already exists! ") 
     else:
-      sql = "INSERT INTO Work_orders(Asset_ID, Name ,Order_number ,Status,`Repair/PM`,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Demand_cost) VALUES (%s, %s ,%s ,%s,%s, %s ,%s,%s,%s,%s,%s,%s )"
+      sql = "INSERT INTO Work_orders(Asset_ID, Name ,Order_number ,Status,`Repair/PM`,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Repair_cost) VALUES (%s, %s ,%s ,%s,%s, %s ,%s,%s,%s,%s,%s,%s )"
       val = (Asset_ID, Name ,Order_number ,Status,Demand_PM,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Demand_cost)
       mycursor.execute(sql, val)
       mydb.commit() 
@@ -260,9 +260,14 @@ def editOrder():
     mycursor.execute("SELECT * FROM Work_orders WHERE  Order_number = '" +Order_number+ "' ")
     myresult = mycursor.fetchall()
     if myresult :
-      
-      sql = """UPDATE Work_orders set Name=%s,Status=%s,`Repair/PM`=%s,Due_date=%s,Creation__date=%s,PM_date=%s,PM_frequency=%s,Priority=%s,Description=%s,Demand_cost=%s  where Order_number=%s """
-      val = (Name,Status,Demand_PM,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Demand_cost,Order_number)
+      if (Name == '' and Status ==''and Demand_PM !='' and Due_date=='' and Creation__date =='' and  PM_frequency == '' and Priority != '' and Description =='' and Demand_cost =='' ):
+        sql = """UPDATE Work_orders set `Repair/PM`=%s,PM_date=%s,Priority=%s  where Order_number=%s """
+
+        val = (Demand_PM,PM_date,Priority,Order_number)
+
+      else:
+        sql = """UPDATE Work_orders set Name=%s,Status=%s,`Repair/PM`=%s,Due_date=%s,Creation__date=%s,PM_date=%s,PM_frequency=%s,Priority=%s,Description=%s,Repair_cost=%s  where Order_number=%s """
+        val = (Name,Status,Demand_PM,Due_date,Creation__date,PM_date,PM_frequency,Priority,Description,Demand_cost,Order_number)
       mycursor.execute(sql, val)
       mydb.commit() 
       return render_template("/editOrder.html")
@@ -506,7 +511,7 @@ def todaysM():
   
   }
 
-  mycursor.execute("SELECT * FROM Work_orders WHERE PM_frequency = 'Weakly' AND `Repair/PM` = 'PM' ")
+  mycursor.execute("SELECT * FROM Work_orders WHERE PM_frequency = 'Weekly' AND `Repair/PM` = 'PM' ")
   row_headers3=[x[0] for x in mycursor.description] 
   myresult3 = mycursor.fetchall()
   data3={
