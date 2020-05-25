@@ -1,3 +1,7 @@
+## A three minutes video featuring our system:
+
+for more detais there are longer videos bellow for each icon. 
+[![alt text](https://github.com/yara7/clinical/blob/master/static/video_icon.PNG)](https://drive.google.com/file/d/1LMFBklknOlIKSXVqJV8EIpx3M2nJjBxi/view?usp=sharing)
 
 ## this video shows equipments and features available  for viewing  ,adding,editing,and searching.
 [![alt text](https://github.com/yara7/clinical/blob/master/static/video_icon.PNG)](https://drive.google.com/file/d/1Hp7qZfNeBJJIeSYifVD0UX6aD4FXxm4h/view?usp=sharing)
